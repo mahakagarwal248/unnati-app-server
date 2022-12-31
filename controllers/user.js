@@ -17,8 +17,7 @@ const register = async (req, res) => {
   try {
     const existingUser = await userSchema.findOne({ email });
     if (existingUser) {
-      alert("User already exist");
-      return res.status(404).json({ message: "User already exist" });
+      return res.status(400).json({ message: "User already exist" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -58,7 +57,7 @@ const login = async (req, res) => {
   try {
     const existingUser = await userSchema.findOne({ email });
     if (!existingUser) {
-      return res.status(404).json({ message: "User don't exist" });
+      return res.status(404).json({ message: "User doesn't exist" });
     }
 
     const isPasswordCrt = await bcrypt.compare(password, existingUser.password);

@@ -14,11 +14,12 @@ const register = async (req, res) => {
     serviceProviding,
     securityQues,
     securityAns,
+    experience
   } = req.body;
   try {
     const existingProvider = await providerSchema.findOne({ email });
     if (existingProvider) {
-      return res.status(404).json({ message: "User already exist" });
+      return res.status(400).json({ message: "User already exist" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -30,9 +31,10 @@ const register = async (req, res) => {
       mobile,
       address,
       category,
-      serviceProviding,
+      serviceProviding:serviceProviding.toLowerCase(),
       securityQues,
       securityAns: hashedAns,
+      experience
     });
     const token = jwt.sign(
       { email: newUser.email, id: newUser._id },
@@ -62,8 +64,10 @@ const login = async (req, res) => {
       return res.status(404).json({ message: "User don't exist!" });
     }
 
-    if(existingUser.category != "provider"){
-      return res.status(404).json({message: "User is not registered as a provider!"})
+    if (existingUser.category != "provider") {
+      return res
+        .status(404)
+        .json({ message: "User is not registered as a provider!" });
     }
     const isPasswordCrt = await bcrypt.compare(password, existingUser.password);
     if (!isPasswordCrt) {
@@ -128,11 +132,37 @@ const changePassword = async (req, res) => {
     const user = await providerSchema.findOne({ email: email });
     const _id = user._id;
 
-    await userSchema.findByIdAndUpdate(_id, { $set: { password: hashedPassword } });
+    await userSchema.findByIdAndUpdate(_id, {
+      $set: { password: hashedPassword },
+    });
     return res.status(200).json({ message: "Password Changed Successfully!" });
   } catch (error) {
     return res.status(405).json({ message: error.message });
   }
 };
 
-export default { register, login, fetchSecurityQues, matchSecurityAns, changePassword };
+const getProviders = async (req, res) => {
+  try {
+    const { service } = req.params;
+    const serviceProviders = await providerSchema.find({
+      serviceProviding: service,
+    });
+    if (!serviceProviders) {
+      return res
+        .send(404)
+        .json({ message: `No service provider found for ${category} service` });
+    }
+    return res.status(200).json(serviceProviders);
+  } catch (error) {
+    return res.send(error);
+  }
+};
+
+export default {
+  register,
+  login,
+  fetchSecurityQues,
+  matchSecurityAns,
+  changePassword,
+  getProviders
+};

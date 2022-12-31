@@ -9,6 +9,7 @@ const providerSchema = mongoose.Schema(
     address: { type: String, required: true },
     category: { type: String, required: true },
     serviceProviding: { type: String, required: true },
+    experience: { type: String, required: true },
     securityQues: { type: String, required: true },
     securityAns: { type: String, required: true },
     profilePicture: {
