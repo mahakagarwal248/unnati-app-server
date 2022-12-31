@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
 import userSchema from "../models/user.js";
+import requirementsSchema from "../models/requirements.js";
 
 const register = async (req, res) => {
   const {
@@ -123,11 +124,43 @@ const changePassword = async (req, res) => {
     const user = await userSchema.findOne({ email: email });
     const _id = user._id;
 
-    await userSchema.findByIdAndUpdate(_id, { $set: { password: hashedPassword } });
+    await userSchema.findByIdAndUpdate(_id, {
+      $set: { password: hashedPassword },
+    });
     return res.status(200).json({ message: "Password Changed Successfully" });
   } catch (error) {
     return res.status(405).json({ message: error.message });
   }
 };
 
-export default { register, login, fetchSecurityQues, matchSecurityAns, changePassword };
+const saveRequirements = async (req, res) => {
+  const data = req.body;
+  try {
+    const existingUser = await userSchema.findOne({email:email})
+    if(existingUser.category !== "customer"){
+      return res.status(404).json({message:"User is not registered as a customer"})
+    }
+    const savedRequirement = await requirementsSchema.create(data);
+    return res.status(200).json({ message: "Requirement Saved successfully." });
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
+const getRequirements= async(req, res)=>{
+  try {
+    const requirementsList = await requirementsSchema.find();
+    return res.status(200).json(requirementsList)
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+}
+export default {
+  register,
+  login,
+  fetchSecurityQues,
+  matchSecurityAns,
+  changePassword,
+  saveRequirements,
+  getRequirements
+};
