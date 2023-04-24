@@ -77,6 +77,15 @@ const login = async (req, res) => {
   }
 };
 
+const getUserData = async (req, res) => {
+  const { email } = req.query;
+  try {
+    const userData = await userSchema.findOne({ email: email });
+    return res.status(200).json(userData);
+  } catch (error) {
+    return res.status(500).json("Something went wrong...");
+  }
+};
 const fetchSecurityQues = async (req, res) => {
   const { email: email } = req.query;
   try {
@@ -136,31 +145,52 @@ const changePassword = async (req, res) => {
 const saveRequirements = async (req, res) => {
   const data = req.body;
   try {
-    const existingUser = await userSchema.findOne({email:email})
-    if(existingUser.category !== "customer"){
-      return res.status(404).json({message:"User is not registered as a customer"})
+    const existingUser = await userSchema.findOne({ email: data?.email });
+    if (existingUser.category !== "customer") {
+      return res
+        .status(404)
+        .json({ message: "User is not registered as a customer" });
     }
     const savedRequirement = await requirementsSchema.create(data);
+    savedRequirement.save();
     return res.status(200).json({ message: "Requirement Saved successfully." });
   } catch (error) {
     return res.status(500).json(error);
   }
 };
 
-const getRequirements= async(req, res)=>{
+const getRequirements = async (req, res) => {
+  const { email } = req.query;
   try {
-    const requirementsList = await requirementsSchema.find();
-    return res.status(200).json(requirementsList)
+    const requirementsList = await requirementsSchema.find({ email: email });
+    return res.status(200).json(requirementsList);
   } catch (error) {
     return res.status(500).json(error);
   }
-}
+};
+
+const updateUser = async (req, res) => {
+  const data = req.body;
+  try {
+    const updatedAddress = await userSchema.findOneAndUpdate(
+      { email: data?.email },
+      { $set: data },
+      { new: true }
+    );
+    return res.status(200).json(updatedAddress);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
 export default {
   register,
   login,
+  getUserData,
   fetchSecurityQues,
   matchSecurityAns,
   changePassword,
   saveRequirements,
-  getRequirements
+  getRequirements,
+  updateUser,
 };
