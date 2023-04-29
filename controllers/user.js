@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 
 import userSchema from "../models/user.js";
 import requirementsSchema from "../models/requirements.js";
+import connectionRequestsSchema from "../models/connectionRequests.js";
 
 const register = async (req, res) => {
   const {
@@ -183,6 +184,37 @@ const updateUser = async (req, res) => {
   }
 };
 
+const getConnectionRequests = async (req, res) => {
+  const { userId } = req.query;
+  try {
+    const connectionRequestList = await connectionRequestsSchema
+      .find({
+        userId: userId,
+      })
+      .populate(["userId", "providerId", "requirementId"]);
+    return res.status(200).json(connectionRequestList);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+};
+
+const updateConnectionRequest = async (req, res) => {
+  const { id, status } = req.query;
+  try {
+    const updatedConnectionRequest =
+      await connectionRequestsSchema.findByIdAndUpdate(
+        id,
+        { status: status },
+        { new: true }
+      );
+    return res.status(200).json(updatedConnectionRequest);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+};
+
 export default {
   register,
   login,
@@ -193,4 +225,6 @@ export default {
   saveRequirements,
   getRequirements,
   updateUser,
+  getConnectionRequests,
+  updateConnectionRequest,
 };

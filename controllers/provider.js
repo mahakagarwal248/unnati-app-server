@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
 import providerSchema from "../models/provider.js";
+import requirementsSchema from "../models/requirements.js";
 
 const register = async (req, res) => {
   const {
@@ -14,7 +15,7 @@ const register = async (req, res) => {
     serviceProviding,
     securityQues,
     securityAns,
-    experience
+    experience,
   } = req.body;
   try {
     const existingProvider = await providerSchema.findOne({ email });
@@ -31,10 +32,10 @@ const register = async (req, res) => {
       mobile,
       address,
       category,
-      serviceProviding:serviceProviding.toLowerCase(),
+      serviceProviding: serviceProviding.toLowerCase(),
       securityQues,
       securityAns: hashedAns,
-      experience
+      experience,
     });
     const token = jwt.sign(
       { email: newUser.email, id: newUser._id },
@@ -158,11 +159,25 @@ const getProviders = async (req, res) => {
   }
 };
 
+const getRequirements = async (req, res) => {
+  const { service } = req.query;
+  try {
+    const requirementsList = await requirementsSchema.find({
+      service: service,
+    });
+    return res.status(200).json(requirementsList);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+};
+
 export default {
   register,
   login,
   fetchSecurityQues,
   matchSecurityAns,
   changePassword,
-  getProviders
+  getProviders,
+  getRequirements,
 };

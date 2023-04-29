@@ -1,6 +1,7 @@
 import express from "express";
 
 import userCtrl from "../controllers/user.js";
+import sendEmailFunction from "../controllers/sendEmailFunction.js";
 
 const router = express.Router();
 
@@ -13,5 +14,7 @@ router.post("/change-password", userCtrl.changePassword);
 router.post("/save-requirements", userCtrl.saveRequirements);
 router.get("/get-requirements", userCtrl.getRequirements);
 router.post("/update-user", userCtrl.updateUser);
+router.get("/get-connection-requests", userCtrl.getConnectionRequests);
+router.post("/send-email", sendEmailFunction);
 
 export default router;

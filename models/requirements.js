@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const requirementsSchema = mongoose.Schema(
   {
@@ -8,6 +8,7 @@ const requirementsSchema = mongoose.Schema(
     address: { type: String, required: true },
     service: { type: String, required: true },
     experience: { type: String },
+    userId: { type: Schema.Types.ObjectId, ref: "user" },
   },
   { timestamps: true }
 );
