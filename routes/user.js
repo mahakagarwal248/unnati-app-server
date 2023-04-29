@@ -15,6 +15,7 @@ router.post("/save-requirements", userCtrl.saveRequirements);
 router.get("/get-requirements", userCtrl.getRequirements);
 router.post("/update-user", userCtrl.updateUser);
 router.get("/get-connection-requests", userCtrl.getConnectionRequests);
+router.get("/update-connection-requests", userCtrl.updateConnectionRequest);
 router.post("/send-email", sendEmailFunction);
 
 export default router;
