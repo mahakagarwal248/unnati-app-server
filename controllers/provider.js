@@ -165,6 +165,7 @@ const getRequirements = async (req, res) => {
   try {
     const requirementsList = await requirementsSchema.find({
       service: service,
+      isActive: true,
     });
     return res.status(200).json(requirementsList);
   } catch (error) {

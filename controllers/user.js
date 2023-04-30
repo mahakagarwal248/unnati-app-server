@@ -163,7 +163,10 @@ const saveRequirements = async (req, res) => {
 const getRequirements = async (req, res) => {
   const { email } = req.query;
   try {
-    const requirementsList = await requirementsSchema.find({ email: email });
+    const requirementsList = await requirementsSchema.find({
+      email: email,
+      isActive: true,
+    });
     return res.status(200).json(requirementsList);
   } catch (error) {
     return res.status(500).json(error);
@@ -215,6 +218,20 @@ const updateConnectionRequest = async (req, res) => {
   }
 };
 
+const deleteRequirement = async (req, res) => {
+  const { requirementId } = req.query;
+  try {
+    const deletedRequirement = await requirementsSchema.findByIdAndUpdate(
+      { _id: requirementId },
+      { isActive: false },
+      { new: true }
+    );
+    return res.status(200).json(deletedRequirement);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+};
 export default {
   register,
   login,
@@ -227,4 +244,5 @@ export default {
   updateUser,
   getConnectionRequests,
   updateConnectionRequest,
+  deleteRequirement,
 };
