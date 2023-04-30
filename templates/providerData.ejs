@@ -94,9 +94,22 @@
     <div class="container">
       <div class="greetings">Hello <%= data.userName ;%>,</div>
       <div class="rewards-details">
-        Somebody has requested to connect with you regarding your requirement
-        posted for the service of "<b><%= data.service ;%></b>" Please check
-        your profile for provider's information.
+        The provider's data for the "<b><%= data.service ;%></b>" service is as
+        follows:-
+      </div>
+      <br />
+      <div class="rewards-details">
+        Name: <%= data.providerName ;%><br />
+        Address: <%= data.providerAddress ;%><br />
+        Experience: <%= data.providerExperience ;%><br />
+        Email:<%= data.providerEmail ;%><br />
+        Mobile Number: <%= data.providerMobile ;%>
+      </div>
+      <br />
+      <div class="rewards-details">
+        Thanks for visiting us. We will be glad to serve you again.
+        <br />
+        Have a nice day.
       </div>
       <div class="copyright-section">
         COPYRIGHT <%= new Date().getFullYear() ;%> UNNATI - A Service Provider

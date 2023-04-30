@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 
 import providerSchema from "../models/provider.js";
 import requirementsSchema from "../models/requirements.js";
+import connectionRequestsSchema from "../models/connectionRequests.js";
 
 const register = async (req, res) => {
   const {
@@ -172,6 +173,38 @@ const getRequirements = async (req, res) => {
   }
 };
 
+const getConnectionRequests = async (req, res) => {
+  const { providerId } = req.query;
+  try {
+    const connectionRequestList = await connectionRequestsSchema
+      .find({
+        providerId: providerId,
+      })
+      .populate(["userId", "providerId", "requirementId"]);
+    return res.status(200).json(connectionRequestList);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+};
+
+const isRequestSent = async (req, res) => {
+  const { requirementId, providerId } = req.query;
+  try {
+    const existingRequest = await connectionRequestsSchema.findOne({
+      requirementId: requirementId,
+      providerId: providerId,
+    });
+    if (!existingRequest) {
+      return res.status(200).json(false);
+    } else {
+      return res.status(200).json(true);
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+};
 export default {
   register,
   login,
@@ -180,4 +213,6 @@ export default {
   changePassword,
   getProviders,
   getRequirements,
+  getConnectionRequests,
+  isRequestSent,
 };

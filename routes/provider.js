@@ -11,5 +11,7 @@ router.post("/match-security-ans", providerCtrl.matchSecurityAns);
 router.post("/change-password", providerCtrl.changePassword);
 router.get("/get-providers/:service", providerCtrl.getProviders);
 router.get("/get-requirements", providerCtrl.getRequirements);
+router.get("/get-connection-requests", providerCtrl.getConnectionRequests);
+router.get("/is-request-sent", providerCtrl.isRequestSent);
 
 export default router;

@@ -22,6 +22,7 @@ app.use("/provider", providerRoutes);
 const PORT = process.env.PORT || 8000;
 const DB_URL = process.env.CONNECTION_URL;
 
+mongoose.set("strictQuery", true);
 mongoose
   .connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(
