@@ -103,7 +103,7 @@ const fetchSecurityQues = async (req, res) => {
 };
 
 const matchSecurityAns = async (req, res) => {
-  const { email, answer } = req.body;
+  const { email, answer } = req.query;
 
   try {
     const existingUser = await providerSchema.findOne({ email });
@@ -122,7 +122,7 @@ const matchSecurityAns = async (req, res) => {
 };
 
 const changePassword = async (req, res) => {
-  const { email, newPassword } = req.body;
+  const { email, newPassword } = req.query;
 
   try {
     const existingUser = await providerSchema.find({ email });
