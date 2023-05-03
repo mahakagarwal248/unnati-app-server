@@ -5,6 +5,7 @@ import cors from "cors";
 
 import userRoutes from "./routes/user.js";
 import providerRoutes from "./routes/provider.js";
+import feedbackRoutes from "./routes/feedback.js";
 
 const app = express();
 dotenv.config();
@@ -18,6 +19,7 @@ app.get("/", (req, res) => {
 
 app.use("/user", userRoutes);
 app.use("/provider", providerRoutes);
+app.use("/feedback", feedbackRoutes);
 
 const PORT = process.env.PORT || 8000;
 const DB_URL = process.env.CONNECTION_URL;
