@@ -8,6 +8,7 @@ const requirementsSchema = mongoose.Schema(
     address: { type: String, required: true },
     service: { type: String, required: true },
     experience: { type: String },
+    availabilityTime: { type: String, default: "" },
     userId: { type: Schema.Types.ObjectId, ref: "user" },
     isActive: { type: Boolean, default: true },
   },

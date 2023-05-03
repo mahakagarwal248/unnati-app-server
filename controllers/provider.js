@@ -17,6 +17,7 @@ const register = async (req, res) => {
     securityQues,
     securityAns,
     experience,
+    availability,
   } = req.body;
   try {
     const existingProvider = await providerSchema.findOne({ email });
@@ -37,6 +38,7 @@ const register = async (req, res) => {
       securityQues,
       securityAns: hashedAns,
       experience,
+      availabilityTime: availability,
     });
     const token = jwt.sign(
       { email: newUser.email, id: newUser._id },
