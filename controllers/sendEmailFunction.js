@@ -8,6 +8,10 @@ const __dirname = path.dirname(__filename);
 
 const connectMail = path.join(__dirname, "../templates/connect.ejs");
 const providerDataMail = path.join(__dirname, "../templates/providerData.ejs");
+const connectByUserMail = path.join(
+  __dirname,
+  "../templates/connectByUser.ejs"
+);
 
 import sendEmail from "./sendEmail.js";
 import connectionRequestsSchema from "../models/connectionRequests.js";
@@ -30,6 +34,11 @@ const sendEmailFunction = async (req, res) => {
     template = connectMail;
   } else if (data?.subject === "Provider's Details") {
     template = providerDataMail;
+  } else if (
+    data?.subject ===
+    `Connection Request for the service of ${data?.service.toLowerCase()}`
+  ) {
+    template = connectByUserMail;
   }
   return new Promise((resolve, reject) => {
     ejs.renderFile(
@@ -43,6 +52,17 @@ const sendEmailFunction = async (req, res) => {
               userId: data?.userId,
               providerId: data?.providerId,
               requirementId: data?.requirementId,
+              sentBy: "provider",
+            });
+            saveRequest.save();
+          } else if (
+            data?.subject ===
+            `Connection Request for the service of ${data?.service.toLowerCase()}`
+          ) {
+            const saveRequest = await connectionRequestsSchema.create({
+              userId: data?.userId,
+              providerId: data?.providerId,
+              sentBy: "user",
             });
             saveRequest.save();
           }

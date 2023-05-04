@@ -10,6 +10,7 @@ const connectionRequestSchema = mongoose.Schema(
       default: "pending",
       enum: ["pending", "accepted", "rejected"],
     },
+    sentBy: { type: String, enum: ["user", "provider"] },
   },
   { timestamps: true }
 );

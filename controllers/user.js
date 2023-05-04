@@ -218,6 +218,20 @@ const updateConnectionRequest = async (req, res) => {
   }
 };
 
+const isExistingRequest = async (req, res) => {
+  const { userId, providerId } = req.query;
+  try {
+    const existingRequest = await connectionRequestsSchema.findOne({
+      userId: userId,
+      providerId: providerId,
+      sentBy: "user",
+    });
+    return res.status(200).json(existingRequest);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+};
 const deleteRequirement = async (req, res) => {
   const { requirementId } = req.query;
   try {
@@ -244,5 +258,6 @@ export default {
   updateUser,
   getConnectionRequests,
   updateConnectionRequest,
+  isExistingRequest,
   deleteRequirement,
 };

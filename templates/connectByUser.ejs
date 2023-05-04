@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UNNATI - A Service Provider</title>
+    <style>
+      body {
+        background-color: #e9e9e9;
+        font-family: Arial, "sans-serif";
+      }
+
+      .container {
+        width: 650px;
+        margin: 0 auto;
+        background-color: white;
+        padding: 2rem;
+      }
+
+      .logo img {
+        width: 170px;
+        height: 70px;
+        margin-left: -1rem;
+        margin-bottom: 1rem;
+      }
+
+      .greetings {
+        text-transform: capitalize;
+        font-size: 21px;
+        font-weight: 500;
+      }
+
+      .otp-section {
+        margin-top: 2rem;
+
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      .all-types {
+        font-family: Arial, "sans-serif";
+        font-size: 16px;
+        font-weight: 500;
+        margin-top: 10px;
+      }
+
+      .social-logos img {
+        width: 20px;
+        height: 20px;
+        margin-right: 1rem;
+      }
+
+      .rewards-details {
+        margin-top: 1.5rem;
+        font-size: 20px;
+        font-weight: 500;
+      }
+
+      /* .social-logos > :nth-child(1) {
+            width: 140px;
+            height: 60px;
+            margin-left: -1.5rem;
+            margin-top: 10px;
+         } */
+      .social-sites {
+        border-top: 2px solid rgb(204, 204, 204);
+      }
+
+      .social-sites h1 {
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      .regards-section {
+        margin: 1rem 0;
+      }
+
+      .regards-section p {
+        font-size: 16px;
+        font-weight: 400;
+        margin: unset;
+      }
+
+      .copyright-section {
+        margin-top: 1.5rem;
+        font-size: 14px;
+        font-weight: 400;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="greetings">Hello <%= data.userName ;%>,</div>
+      <div class="rewards-details">
+        Somebody wants to connect with you regarding the requirement for the
+        service of "<b><%= data.service ;%></b>" Please check your profile for
+        taking the action.
+      </div>
+      <div class="copyright-section">
+        COPYRIGHT <%= new Date().getFullYear() ;%> UNNATI - A Service Provider
+        RESERVED.
+      </div>
+    </div>
+  </body>
+</html>

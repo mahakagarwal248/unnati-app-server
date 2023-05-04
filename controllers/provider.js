@@ -125,7 +125,6 @@ const matchSecurityAns = async (req, res) => {
 
 const changePassword = async (req, res) => {
   const { email, newPassword } = req.query;
-
   try {
     const existingUser = await providerSchema.find({ email });
     if (!existingUser) {
@@ -136,11 +135,12 @@ const changePassword = async (req, res) => {
     const user = await providerSchema.findOne({ email: email });
     const _id = user._id;
 
-    await userSchema.findByIdAndUpdate(_id, {
-      $set: { password: hashedPassword },
+    await providerSchema.findByIdAndUpdate(_id, {
+      password: hashedPassword,
     });
     return res.status(200).json({ message: "Password Changed Successfully!" });
   } catch (error) {
+    console.log(error);
     return res.status(405).json({ message: error.message });
   }
 };
@@ -168,6 +168,7 @@ const getRequirements = async (req, res) => {
     const requirementsList = await requirementsSchema.find({
       service: service,
       isActive: true,
+      sentBy: "provider",
     });
     return res.status(200).json(requirementsList);
   } catch (error) {

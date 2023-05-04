@@ -17,6 +17,7 @@ router.delete("/delete-requirement", userCtrl.deleteRequirement);
 router.post("/update-user", userCtrl.updateUser);
 router.get("/get-connection-requests", userCtrl.getConnectionRequests);
 router.get("/update-connection-requests", userCtrl.updateConnectionRequest);
+router.get("/is-existing-request", userCtrl.isExistingRequest);
 router.post("/send-email", sendEmailFunction);
 
 export default router;
