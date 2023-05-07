@@ -13,7 +13,7 @@ const providerSchema = mongoose.Schema(
     securityQues: { type: String, required: true },
     securityAns: { type: String, required: true },
     availabilityTime: { type: String, default: "" },
-    review: { type: Number, default: "" },
+    rating: { type: Number, default: "" },
     profilePicture: {
       data: Buffer,
       contentType: String,
