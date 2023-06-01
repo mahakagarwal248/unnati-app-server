@@ -34,7 +34,10 @@ const saveFeedback = async (req, res) => {
     const providerData = await providerSchema.findOne({
       _id: data?.providerId,
     });
-    const avgRating = (providerData.rating + Number(rating)) / 2;
+    const avgRating =
+      providerData?.avgRating === 0
+        ? Number(rating)
+        : (providerData?.avgRating + Number(rating)) / 2;
     await providerSchema.findByIdAndUpdate(
       { _id: data?.providerId },
       { rating: avgRating.toFixed(1) },
