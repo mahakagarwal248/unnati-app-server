@@ -14,7 +14,7 @@ app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
 app.get("/", (req, res) => {
-  res.send("This is a shopping site API");
+  res.send("This is Unnati server API");
 });
 
 app.use("/user", userRoutes);
